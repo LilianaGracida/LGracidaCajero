@@ -76,7 +76,6 @@ namespace Vistas.Controllers
             {
                 cliente = (ML.Cliente)result.Object;
                 int idCliente = cliente.IdCliente;
-
                 //using(var client = new HttpClient())
                 //{
                 //    try
