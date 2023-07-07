@@ -1,0 +1,45 @@
+﻿
+@{
+    Layout = null;
+}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+<html>
+<head>
+    <title>Acceso</title>
+</head>
+<body>
+    <center>
+        <div style="display:flex;width:600%; margin-top : 100px; max-width: 400px;  height: 220px; border: 1px solid #9C9C9C; background-color: #EAEAEA;">
+
+            <div class="container">
+                <form class="px-4 py-3" method="post" action="http://localhost:5256/Cajero/ValidarCuenta">
+                    <div input-group input-group-sm mb-3>
+                        <label>Inicio</label>
+                    </div>
+                    <br />
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Numero Cuenta</span>
+                        </div>
+                        <input type="text" name="numeroCuenta" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Nip</span>
+                        </div>
+                        <input type="password" name="nip" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                        <br />
+                    </div>
+                    <input type="submit" value="Acceder" class="btn-success"/>
+                </form>
+            </div>
+
+        </div>
+    </center>
+
+</body>
+</html>

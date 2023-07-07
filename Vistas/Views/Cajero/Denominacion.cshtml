@@ -1,0 +1,108 @@
+﻿@model ML.Retiro
+@{
+    ViewData["Title"] = "Denominacion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<html>
+<head>
+    <title>Retiro Realizado</title>
+</head>
+<body>
+        <center>
+        <div style="display:flex;width:200%; margin-top : 20px; max-width: 400px;  height: 450px; border: 1px solid #9C9C9C; background-color: #EAEAEA;">
+         <div class="container">
+             <br />
+            <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Nombre</span>
+                    </div>
+                    <input type="text" name="Nombre" disabled class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="@Model.Cliente.Nombre  @Model.Cliente.ApellidoPaterno  @Model.Cliente.ApellidoMaterno">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Monto Retiro</span>
+                    </div>
+                    <input type="text" name="Cantidad" disabled class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="@Model.Cantidad">
+                </div>
+                @if (Model.Denominacion.Billete1000 !=0)
+                {
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">$ 1000</span>
+                        </div>
+                        <input type="text" name="Billete1000" disabled class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="@Model.Denominacion.Billete1000">
+                        <br />
+                    </div>
+                }
+                @if (Model.Denominacion.Billete500 != 0)
+                {
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">$ 500</span>
+                        </div>
+                        <input type="text" name="Billete500" disabled class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="@Model.Denominacion.Billete500">
+                        <br />
+                    </div>
+                }
+                @if (Model.Denominacion.Billete200 != 0)
+                {
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">$ 200</span>
+                        </div>
+                        <input type="text" name="Billete200" disabled class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="@Model.Denominacion.Billete200">
+                        <br />
+                    </div>
+                }
+                @if (Model.Denominacion.Billete100 != 0)
+                {
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">$ 100</span>
+                        </div>
+                        <input type="text" name="Billete100"  disabled class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="@Model.Denominacion.Billete100">
+                        <br />
+                    </div>
+                }
+                @if (Model.Denominacion.Billete50 != 0)
+                {
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">$ 50</span>
+                        </div>
+                        <input type="text" name="Billete50"  disabled class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="@Model.Denominacion.Billete50">
+                        <br />
+                    </div>
+                }
+                @if (Model.Denominacion.Billete20 != 0)
+                {
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">$ 20</span>
+                        </div>
+                        <input type="text" name="Billete20" disabled class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value=" @Model.Denominacion.Billete20">
+                        <br />
+                    </div>
+                }
+                @if(@Model.SaldoRetenido !=0)
+                {
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Saldo Retenido</span>
+                        </div>
+                        <input type="text" name="SaldoRetenido" disabled class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value=" $ @Model.SaldoRetenido">
+                    </div>
+                    <label>El saldo Retenido se devolvera automaticamente a su cuenta.</label>
+                }
+                <br />
+                <a href="http://localhost:5256/Cajero/Inicio">
+                    <button type="submit" class="btn-danger">Salir</button>
+                </a>
+       </div>
+    </div>
+    </center>
+
+</body>
+</html>
+

@@ -1,0 +1,60 @@
+﻿@model ML.DetalleCuenta
+@{
+    ViewData["Title"] = "Retirar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<head>
+    <title>Retirar</title>
+</head>
+<body>
+        <center>
+        <div style="display:flex;width:200%; margin-top : 100px; max-width: 400px;  height: 320px; border: 1px solid #9C9C9C; background-color: #EAEAEA;">
+
+            <form class="px-4 py-3" method="post" action="http://localhost:5256/Cajero/Retirar">
+                <div input-group input-group-sm mb-3>
+                    <label>Retirar</label>
+                </div>
+                <div class="input-group input-group-sm mb-3" hidden>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Id</span>
+                    </div>
+                    <input type="text" name="IdCliente" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="@Model.Cliente.IdCliente">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Nombre</span>
+                    </div>
+                    <input type="text" name="Nombre" disabled class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="@Model.Cliente.Nombre  @Model.Cliente.ApellidoPaterno  @Model.Cliente.ApellidoMaterno">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Numero Cuenta</span>
+                    </div>
+                    <input type="text" name="NumeroCuenta" disabled class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="@Model.Cliente.NumeroCuenta">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"  id="inputGroup-sizing-sm">Saldo $</span>
+                    </div>
+                    <input type="text" name="Saldo" disabled class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="@Model.Saldo">
+                    <br />
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Retirar $</span>
+                    </div>
+                    <input type="text" name="retiro" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value=" @Model.Cliente.Saldo">
+                    <br />
+                </div>
+                <input type="submit" value="Retirar" class="btn-info" />
+            </form>
+        </div>
+        </center>
+
+   
+
+
+</body>
+</html>
+
