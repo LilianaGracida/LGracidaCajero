@@ -34,13 +34,22 @@ namespace Vistas.Controllers
                         result.Object = resultItemList;
 
                         cliente = ((ML.Cliente)result.Object);
-                     return RedirectToAction("Retirar", "Cajero", new { numeroCuenta });
+
+                        if (cliente.Nip == nip)
+                        {
+                            return RedirectToAction("Retirar", "Cajero", new { numeroCuenta });
+                        }
+                        else
+                        {
+
+                            ViewBag.Message = "Los datos son incorrectos";
+                            return View("Modal");
+                        }
 
                     }
                     else
                     {
-                        result.Correct = false;
-                        result.ErrorMessage = "No existen registros en la tabla ";
+                        ViewBag.Message = "No existen registros en la tabla ";
                         return View("Modal");
                     }
                 }
@@ -58,11 +67,37 @@ namespace Vistas.Controllers
         public IActionResult Retirar(int numeroCuenta)
         {
             ML.DetalleCuenta detalleCuenta = new ML.DetalleCuenta();
-            ML.Result result = BL.Cliente.GetByNumeroCuenta(numeroCuenta);
             ML.Cliente cliente = new ML.Cliente();
-            if (result.Correct)
+            ML.Result result = new ML.Result();
+            using (var client = new HttpClient())
             {
-                cliente = (ML.Cliente)result.Object;
+                try
+                {
+                    client.BaseAddress = new Uri("http://localhost:5091/api/");
+                    var responseTask = client.GetAsync("Cliente/GetByNumeroCuenta/" + numeroCuenta);
+                    responseTask.Wait();
+                    var resultAPI = responseTask.Result;
+                    if (resultAPI.IsSuccessStatusCode)
+                    {
+                        var readTask = resultAPI.Content.ReadAsAsync<ML.Result>();
+                        readTask.Wait();
+                        ML.Cliente resultItemList = new ML.Cliente();
+                        resultItemList = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Cliente>(readTask.Result.Object.ToString());
+                        result.Object = resultItemList;
+
+                        cliente = (ML.Cliente)result.Object;
+
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    result.Correct = false;
+                    result.ErrorMessage = ex.Message;
+                }
+            }
+            //  ML.Result result = BL.Cliente.GetByNumeroCuenta(numeroCuenta);
+            
                 int idCliente = cliente.IdCliente;
                 using (var client = new HttpClient())
                 {
@@ -96,59 +131,58 @@ namespace Vistas.Controllers
                 //{
                 //    detalleCuenta = (ML.DetalleCuenta)resultSaldo.Object;
                 //}
-            }
 
             return View(detalleCuenta);
         }
         [HttpPost]
-        public IActionResult Retirar(ML.Cliente cliente,int retiro)
+        public IActionResult Retirar(ML.Cliente cliente, int retiro)
         {
             ML.Denominacion denominacion = new ML.Denominacion();
             ML.Result result = new ML.Result();
-            using (var client = new HttpClient())
+            if (cliente.Saldo >= retiro)
             {
-                try
+                using (var client = new HttpClient())
                 {
-                    client.BaseAddress = new Uri("http://localhost:5091/api/");
-                    var responseTask = client.GetAsync("Cliente/Retiro/" + retiro +"/"+cliente.Saldo);
-                    responseTask.Wait();
-                    var resultAPI = responseTask.Result;
-                    if (resultAPI.IsSuccessStatusCode)
+                    try
                     {
-                        var readTask = resultAPI.Content.ReadAsAsync<ML.Result>();
-                        readTask.Wait();
-                        ML.Denominacion resultItemList = new ML.Denominacion();
-                        resultItemList = Newtonsoft.Json.JsonConvert.DeserializeObject<Denominacion>(readTask.Result.Object.ToString());
-                        result.Object = resultItemList;
+                        client.BaseAddress = new Uri("http://localhost:5091/api/");
+                        var responseTask = client.GetAsync("Cliente/Retiro/" + retiro + "/" + cliente.Saldo);
+                        responseTask.Wait();
+                        var resultAPI = responseTask.Result;
+                        if (resultAPI.IsSuccessStatusCode)
+                        {
+                            var readTask = resultAPI.Content.ReadAsAsync<ML.Result>();
+                            readTask.Wait();
+                            ML.Denominacion resultItemList = new ML.Denominacion();
+                            resultItemList = Newtonsoft.Json.JsonConvert.DeserializeObject<Denominacion>(readTask.Result.Object.ToString());
+                            result.Object = resultItemList;
 
-                        denominacion = (ML.Denominacion)result.Object;
+                            denominacion = (ML.Denominacion)result.Object;
+
+                        }
+
+                        responseTask = client.PostAsJsonAsync<ML.Denominacion>("Cliente/AddRetiro/" + cliente.IdCliente + "/" + retiro, denominacion);
+                        responseTask.Wait();
+                        resultAPI = responseTask.Result;
+
+
+                        // ML.Result result1 = BL.Cliente.AddRetiro(cliente.IdCliente, retiro, denominacion);
 
                     }
-                    responseTask = client.PostAsJsonAsync<ML.Denominacion>("Cliente/AddRetiro/" + cliente.IdCliente + "/" +retiro, denominacion);
-                    responseTask.Wait();
-                    resultAPI = responseTask.Result;
-                    if (resultAPI.IsSuccessStatusCode)
+                    catch (Exception ex)
                     {
-                        ViewBag.Mensaje = "Retiro Exitoso";
-
+                        result.Correct = false;
+                        result.ErrorMessage = ex.Message;
                     }
-                    else
-                    {
-                        ViewBag.Mensaje = "No se pudo realizar el retiro";
-                    }
-
-                   // ML.Result result1 = BL.Cliente.AddRetiro(cliente.IdCliente, retiro, denominacion);
-
                 }
-                catch (Exception ex)
-                {
-                    result.Correct = false;
-                    result.ErrorMessage = ex.Message;
-                }
+                return RedirectToAction("Denominacion", "Cajero", new { cliente.IdCliente });
             }
-            
-            return RedirectToAction("Denominacion", "Cajero", new{ cliente.IdCliente});
-         }
+            else
+            {
+                ViewBag.Message = "No se cuenta con saldo suficiente";
+                return View("Modal");
+            }
+        }
         public IActionResult Denominacion(int idCliente)
         {
 
@@ -182,10 +216,6 @@ namespace Vistas.Controllers
                     result.ErrorMessage = ex.Message;
                 }
             }
-            //if (result.Correct)
-            //{
-            //    retiro = (ML.Retiro)result.Object;
-            //}
 
             return View(retiro);
         }
