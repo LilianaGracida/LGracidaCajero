@@ -35,6 +35,23 @@ namespace Servicios.Controllers
                 return NotFound();
             }
         }
+
+        [HttpGet]
+        [Route("api/Cliente/GetRetiro/{idCliente}")]
+        public IActionResult GetRetiro(int idCliente)
+        {
+            var result =BL.Cliente.GetRetiroIdCliente(idCliente);
+
+            if (result.Correct)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [HttpGet]
         [Route("api/Cliente/GetDenominacion")]
         public IActionResult GetDenominacion()

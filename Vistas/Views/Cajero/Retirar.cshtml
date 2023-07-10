@@ -33,12 +33,11 @@
                     </div>
                     <input type="text" name="NumeroCuenta" disabled class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="@Model.Cliente.NumeroCuenta">
                 </div>
-                <div class="input-group input-group-sm mb-3">
+                <div class="input-group input-group-sm mb-3" >
                     <div class="input-group-prepend">
                         <span class="input-group-text"  id="inputGroup-sizing-sm">Saldo $</span>
                     </div>
-                    <input type="text" name="Saldo" disabled class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="@Model.Saldo">
-                    <br />
+                    <input readonly="readonly" type="text" name="Saldo" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value="@Model.Saldo">
                 </div>
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
